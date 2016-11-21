@@ -57,6 +57,8 @@ tar xzf $compile_nginx_tgz
 
 cp $BP_DIR/bin/boot.sh .
 
+echo "Here are the files we have"
+dir $BP_DIR
 ######
 
 ### Handle errors
