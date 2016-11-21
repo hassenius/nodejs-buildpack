@@ -16,8 +16,10 @@ mkfifo $APP_ROOT/nginx/logs/error.log
 cat < $APP_ROOT/nginx/logs/access.log &
 (>&2 cat) < $APP_ROOT/nginx/logs/error.log &
 
-nginx_bin = $(which nginx)
-echo "Found nginx binary: ${nginx_bin}}"
+nginx_bin=$(which nginx)
+echo "Found nginx binary: ${nginx_bin}"
+
+
 
 $APP_ROOT/nginx/sbin/nginx -p $APP_ROOT/nginx -c $APP_ROOT/config/nginx.conf &
 exec npm start
