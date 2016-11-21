@@ -1,36 +1,40 @@
 worker_processes 1;
 daemon off;
-
+error_log <%= File.join(ENV["APP_ROOT"], "nginx/logs/error.log") %>;
+#pid /tmp/proxy/nginx.pid;
 events { worker_connections 1024; }
 
 http {
+  error_log <%= File.join(ENV["APP_ROOT"], "nginx/logs/error.log") %>;
   charset utf-8;
   log_format cloudfoundry '$http_x_forwarded_for - $http_referer - [$time_local] "$request" $status $body_bytes_sent';
-  default_type application/octet-stream;
-  include mime.types;
-  sendfile on;
+  access_log <%= File.join(ENV["APP_ROOT"], "nginx/logs/access.log") %> cloudfoundry;
 
-  gzip on;
-  gzip_disable "msie6";
-  gzip_comp_level 6;
-  gzip_min_length 1100;
-  gzip_buffers 16 8k;
-  gzip_proxied any;
-  gunzip on;
-  gzip_static always;
-  gzip_types text/plain text/css text/js text/xml text/javascript application/javascript application/x-javascript application/json application/xml application/xml+rss;
+#  default_type application/octet-stream;
+#  include mime.types;
+#  sendfile on;
 
-  tcp_nopush on;
-  keepalive_timeout 30;
-  port_in_redirect off; # Ensure that redirects don't include the internal container PORT - <%= ENV["PORT"] %>
-  server_tokens off;
+#  gzip on;
+#  gzip_disable "msie6";
+#  gzip_comp_level 6;
+#  gzip_min_length 1100;
+#  gzip_buffers 16 8k;
+#  gzip_proxied any;
+#  gunzip on;
+#  gzip_static always;
+#  gzip_types text/plain text/css text/js text/xml text/javascript application/javascript application/x-javascript application/json application/xml application/xml+rss;
 
-    upstream application_server {
-        server unix:<%= File.join(ENV["APP_ROOT"], "proxy.socket") %> fail_timeout=0;
-    }
+#  tcp_nopush on;
+#  keepalive_timeout 30;
+#  port_in_redirect off; # Ensure that redirects don't include the internal container PORT 
+#  server_tokens off;
+
+  upstream application_server {
+      server unix:<%= File.join(ENV["APP_ROOT"], "proxy.socket") %> fail_timeout=0;
+  }
 
   server {
-  
+    error_log <%= File.join(ENV["APP_ROOT"], "nginx/logs/error.log") %>;
     listen <%= ENV["PORT"] %>;
     server_name localhost;
 
@@ -38,8 +42,8 @@ http {
         if ($http_x_forwarded_proto != "https") {
           return 301 https://$host$request_uri;
         }
-      
-      proxy_pass http://application_server
+
+      proxy_pass http://application_server;
 
     }
   }
