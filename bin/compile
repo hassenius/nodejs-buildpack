@@ -55,7 +55,7 @@ cd $BUILD_DIR
 echo "Setting up nginx"
 tar xzf $compile_nginx_tgz
 mkdir -p $BUILD_DIR/config
-cp $BP_DIR/config/nginx.conf.orig $BUILD_DIR/config/nginx.conf.orig
+cp $BP_DIR/config/* $BUILD_DIR/config/
 
 cp $BP_DIR/bin/boot.sh .
 
