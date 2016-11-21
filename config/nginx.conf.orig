@@ -25,11 +25,12 @@ http {
   port_in_redirect off; # Ensure that redirects don't include the internal container PORT - <%= ENV["PORT"] %>
   server_tokens off;
 
-  server {
     upstream application_server {
         server unix:<%= File.join(ENV["APP_ROOT"], "proxy.socket") %> fail_timeout=0;
     }
-    
+
+  server {
+  
     listen <%= ENV["PORT"] %>;
     server_name localhost;
 
