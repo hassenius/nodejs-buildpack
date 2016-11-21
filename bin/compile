@@ -39,7 +39,19 @@ source $BP_DIR/lib/binaries.sh
 source $BP_DIR/lib/cache.sh
 source $BP_DIR/lib/dependencies.sh
 source $BP_DIR/lib/vendor/new_relic/install.sh $BUILD_DIR
-source $BP_DIR/lib/vendor/nginx/install_nginx.sh
+#source $BP_DIR/lib/vendor/nginx/install_nginx.sh
+
+compile_buildpack_dir=$(cd $(dirname $0); cd ..; pwd)
+compile_buildpack_bin=$compile_buildpack_dir/bin
+$compile_buildpack_dir/compile-extensions/bin/check_stack_support
+
+translated_url=$($compile_buildpack_dir/compile-extensions/bin/download_dependency nginx.tgz /tmp)
+echo "Downloaded [$translated_url]"
+compile_nginx_tgz="/tmp/nginx.tgz"
+cd $build_dir
+
+echo "Setting up nginx"
+tar xzf $compile_nginx_tgz
 
 
 ### Handle errors

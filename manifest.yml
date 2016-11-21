@@ -17,6 +17,9 @@ url_to_dependency_map:
 - match: node\/v(\d+\.\d+\.\d+)
   name: node
   version: "$1"
+- match: nginx.tgz
+  name: nginx
+  version: 1.11.5
 dependencies:
 - name: node
   version: 0.12.16
@@ -78,3 +81,9 @@ dependencies:
   md5: 52662b51a72b66b83fd2543753bb198e
   cf_stacks:
   - cflinuxfs2
+- name: nginx
+  version: 1.11.5
+  uri: https://buildpacks.cloudfoundry.org/concourse-binaries/nginx/nginx-1.11.5-linux-x64.tgz
+  md5: 48811c404ce20f7dbe1b731e780c62a8
+  cf_stacks:
+- cflinuxfs2
