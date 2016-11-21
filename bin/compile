@@ -41,6 +41,9 @@ source $BP_DIR/lib/dependencies.sh
 source $BP_DIR/lib/vendor/new_relic/install.sh $BUILD_DIR
 #source $BP_DIR/lib/vendor/nginx/install_nginx.sh
 
+
+#####
+## nginx stuffs
 compile_buildpack_dir=$(cd $(dirname $0); cd ..; pwd)
 compile_buildpack_bin=$compile_buildpack_dir/bin
 
@@ -52,6 +55,9 @@ cd $BUILD_DIR
 echo "Setting up nginx"
 tar xzf $compile_nginx_tgz
 
+cp $BP_DIR/bin/boot.sh .
+
+######
 
 ### Handle errors
 
